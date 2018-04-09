@@ -9,16 +9,14 @@ import com.phani.recipe.service.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 public class RecipeServiceImplTest {
 
@@ -49,13 +47,18 @@ public class RecipeServiceImplTest {
     @Test
     public void getRecipeByID() {
         Recipe recipe = new Recipe();
-        recipe.setId(1l);
+        recipe.setId(1L);
         Optional<Recipe> optionalRecipe = Optional.of(recipe);
-        when(recipeRepository.findById(recipe.getId())).thenReturn(optionalRecipe);
 
-       // optionalRecipe = recipeRepository.findById(2l);
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
 
-        fail("not implemented");
+        RecipeCommand recipeCmd = recipeService.getRecipeByID(1L);
+
+        assertNotNull("Null recipe returned", recipeCmd);
+
+        verify(recipeRepository, times(1)).findById(anyLong());
+
+        verify(recipeRepository, never()).findAll();
     }
 
     @Test
