@@ -4,9 +4,11 @@ import com.phani.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IngredientController {
@@ -22,6 +24,7 @@ public class IngredientController {
     @RequestMapping("/recipe/{recipeId}/ingredients")
     public String showIngredients(@PathVariable String recipeId, Model model){
         model.addAttribute("recipe", recipeService.getRecipeByID(new Long(recipeId)));
+        //ModelMap
         return "/recipe/ingredients/list";
     }
 }
