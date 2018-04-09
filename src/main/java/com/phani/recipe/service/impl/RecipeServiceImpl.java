@@ -41,11 +41,10 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Transactional
     public RecipeCommand getRecipeByID(Long id) {
         Optional<Recipe> opt = recipeRepository.findById(id);
-        if(opt == null || opt.get() == null)
-            return null;
+        if(!opt.isPresent())
+            throw new RuntimeException("Recipe not found!!!");
         else{
             return recipeToRecipeCommand.convert(opt.get());
         }

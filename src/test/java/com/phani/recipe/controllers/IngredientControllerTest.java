@@ -7,7 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.phani.recipe.commands.RecipeCommand;
+import com.phani.recipe.service.IngredientService;
 import com.phani.recipe.service.RecipeService;
+import com.phani.recipe.service.UnitOfMeasureService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.*;
@@ -23,12 +25,18 @@ public class IngredientControllerTest {
     RecipeService recipeService;
 
     @Mock
+    IngredientService ingredientService;
+
+    @Mock
+    UnitOfMeasureService unitOfMeasureService;
+
+    @Mock
     Model model;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ingredientController = new IngredientController(recipeService);
+        ingredientController = new IngredientController(ingredientService, recipeService, unitOfMeasureService );
     }
 
     @Test

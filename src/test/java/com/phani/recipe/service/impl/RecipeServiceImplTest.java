@@ -41,7 +41,10 @@ public class RecipeServiceImplTest {
     public void getRecipes() {
         Set<RecipeCommand> recipes = recipeService.getRecipes();
         assertEquals(0, recipes.size());
-        verify(recipeRepository, times(1)).findById(2l);
+        verify(recipeRepository, times(1)).findAll();
+
+        verify(recipeRepository, never()).findById(anyLong());
+
     }
 
     @Test
@@ -52,6 +55,10 @@ public class RecipeServiceImplTest {
 
         when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
 
+        RecipeCommand recipeCommand = new RecipeCommand();
+
+        recipeCommand.setId(1L);
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
         RecipeCommand recipeCmd = recipeService.getRecipeByID(1L);
 
         assertNotNull("Null recipe returned", recipeCmd);
